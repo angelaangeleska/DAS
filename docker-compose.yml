@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - db
+    environment:
+      - DATABASE_NAME=DAS
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=angela2003
+      - DATABASE_HOST=db
+      - DATABASE_PORT=5432
+
+  frontend:
+    build: ./das
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./das:/app
+      - /app/node_modules
+    stdin_open: true
+    tty: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - backend
+  db:
+      image: postgres:15-alpine
+      ports:
+        - "5432:5432"
+      environment:
+        POSTGRES_DB: DAS
+        POSTGRES_USER: dians
+        POSTGRES_PASSWORD: angela2003
+      volumes:
+        - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
