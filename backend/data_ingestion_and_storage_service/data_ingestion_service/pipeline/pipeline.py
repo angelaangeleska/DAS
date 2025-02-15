@@ -1,6 +1,6 @@
-from data_ingestion_service.fetchers.filters.filter_1 import StocksCodes
-from data_ingestion_service.fetchers.filters.filter_2 import FetchAndSaveStocksData
-from data_ingestion_service.fetchers.filters.filter_3 import FetchNewsData
+from data_ingestion_and_storage_service.data_ingestion_service.filters.filter_1 import StocksCodes
+from data_ingestion_and_storage_service.data_ingestion_service.filters.filter_2 import FetchAndSaveStocksData
+from data_ingestion_and_storage_service.data_ingestion_service.filters.filter_3 import FetchNewsData
 
 
 class StockPipeline:

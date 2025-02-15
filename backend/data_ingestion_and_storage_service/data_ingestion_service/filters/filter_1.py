@@ -1,5 +1,6 @@
-from data_ingestion_service.fetchers.filters.filter import Filter
 import pandas as pd
+
+from data_ingestion_and_storage_service.data_ingestion_service.filters.filter import Filter
 
 class StocksCodes(Filter):
 
