@@ -1,5 +1,6 @@
 from data_ingestion_service.fetchers.filters.filter_1 import StocksCodes
 from data_ingestion_service.fetchers.filters.filter_2 import FetchAndSaveStocksData
+from data_ingestion_service.fetchers.filters.filter_3 import FetchNewsData
 
 
 class StockPipeline:
@@ -7,6 +8,7 @@ class StockPipeline:
         self.filters = []
         self.filters.append(StocksCodes())
         self.filters.append(FetchAndSaveStocksData())
+        self.filters.append(FetchNewsData())
 
     def execute(self, data):
         for filter in self.filters:

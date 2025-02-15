@@ -1,5 +1,6 @@
 from data_ingestion_service.fetchers.filters.filter import Filter
 
+import requests
 import numpy as np
 import yfinance as yf
 from datetime import datetime, timedelta
@@ -9,7 +10,7 @@ from django.db import connection
 class FetchAndSaveStocksData(Filter):
     def task(self, data):
         # TODO prvite 5 se skrejpnati [:5]
-        for code in data[:5]:
+        for code in data[:0]:
             print(f"Fetching data for {code}...")
             try:
                 stock_data = self.scrape_stock_info(code)
@@ -79,3 +80,17 @@ class FetchAndSaveStocksData(Filter):
         historical_data = stock.history(start=start_date, end=end_date)
 
         return historical_data
+
+    # def get_alpha_vantage_stocks(self, code):
+    #     API_KEY = '7LT5400PT9D4CVHZ'
+    #     BASE_URL = 'https://www.alphavantage.co/query'
+    #
+    #     params = {
+    #         'function': 'TIME_SERIES_INTRADAY',
+    #         'symbol': code,
+    #         'interval': '30min',
+    #         'apikey': API_KEY
+    #     }
+    #     response = requests.get(BASE_URL, params=params)
+    #     data = response.json()
+    #     return data

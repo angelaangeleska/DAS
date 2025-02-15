@@ -23,3 +23,20 @@ def create_stock_model(table_name):
         class Meta:
             db_table = table_name
     return DynamicCompanyStock
+
+class CompanyNewsData(models.Model):
+    title = models.TextField()
+    summary = models.TextField()
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        abstract = True
+
+def create_news_model(table_name):
+    """Factory function to create a dynamic stock model."""
+    class DynamicCompanyNews(CompanyNewsData):
+        class Meta:
+            db_table = table_name
+    return DynamicCompanyNews
