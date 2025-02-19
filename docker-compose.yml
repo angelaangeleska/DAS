@@ -1,20 +1,50 @@
 version: "3.8"
 
 services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.4.0
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - app-network
+
+  kafka:
+    image: confluentinc/cp-kafka:7.4.0
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - app-network
+
   backend:
     build: ./backend
+    container_name: backend
     ports:
       - "8000:8000"
     volumes:
       - ./backend:/app
     depends_on:
       - db
+      - kafka
     environment:
       - DATABASE_NAME=DAS
       - DATABASE_USER=postgres
       - DATABASE_PASSWORD=angela2003
       - DATABASE_HOST=db
       - DATABASE_PORT=5432
+      - DJANGO_SETTINGS_MODULE=backend.settings
+      - PYTHONPATH=/app
+    networks:
+      - app-network
 
   frontend:
     build: ./das
@@ -29,6 +59,9 @@ services:
       - CHOKIDAR_USEPOLLING=true
     depends_on:
       - backend
+    networks:
+      - app-network
+
   db:
       image: postgres:15-alpine
       ports:
@@ -39,6 +72,72 @@ services:
         POSTGRES_PASSWORD: angela2003
       volumes:
         - postgres_data:/var/lib/postgresql/data
+      networks:
+        - app-network
+
+  master:
+    container_name: master
+    image: arjones/pyspark:2.4.5
+    restart: always
+    command: [ "/opt/spark/sbin/start-master.sh" ]
+    environment:
+      MASTER: spark://master:7077
+      SPARK_NO_DAEMONIZE: 1
+    ports:
+      - 4040:4040
+      - 6066:6066
+      - 7077:7077
+      - 8080:8080
+    volumes:
+      - ./code:/app
+      - ./dataset:/dataset
+    networks:
+      - app-network
+
+  worker1:
+    container_name: worker1
+    image: arjones/pyspark:2.4.5
+    restart: always
+    command: [ "/opt/spark/sbin/start-slave.sh", "spark://master:7077" ]
+    environment:
+      MASTER: spark://master:7077
+      SPARK_NO_DAEMONIZE: 1
+    depends_on:
+      - master
+    ports:
+      - 4041:4040
+      - "6066"
+      - "7077"
+      - 8081:8080
+    volumes:
+      - .:/app
+    networks:
+      - app-network
+
+  worker2:
+    container_name: worker2
+    image: arjones/pyspark:2.4.5
+    restart: always
+    command: [ "/opt/spark/sbin/start-slave.sh", "spark://master:7077" ]
+    environment:
+      MASTER: spark://master:7077
+      SPARK_NO_DAEMONIZE: 1
+    depends_on:
+      - master
+    ports:
+      - 4042:4040
+      - "6066"
+      - "7077"
+      - 8082:8080
+    volumes:
+      - .:/app
+    networks:
+      - app-network
+
 
 volumes:
   postgres_data:
+
+networks:
+  app-network:
+    driver: bridge

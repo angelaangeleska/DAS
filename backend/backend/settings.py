@@ -39,9 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
+    'data_storage_service',
     'data_analysis_service',
-    'data_ingestion_and_storage_service',
+    'real_time_processing_service',
+    'data_ingestion_service',
 ]
+
+KAFKA_BROKER_URL = 'kafka:9092'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -85,7 +89,7 @@ DATABASES = {
         'USER': 'dians',
         'PASSWORD': 'angela2003',
         'HOST': 'db',
-        'PORT': '5432',
+        'PORT': '5432'
     }
 }
 
@@ -133,6 +137,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOW_ALL_ORIGINS = True # TODO remove this in production
 
+# TODO change host
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",  # React (Vite) frontend
 ]

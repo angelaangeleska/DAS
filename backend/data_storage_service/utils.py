@@ -26,7 +26,7 @@ def insert_data_into_table(code, stock_data):
 
     records = [
         (
-            row.name.date(),
+            row.name,
             float(row['Open']),
             float(row['High']),
             float(row['Low']),

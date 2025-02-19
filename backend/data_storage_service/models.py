@@ -17,11 +17,29 @@ class CompanyStockData(models.Model):
     class Meta:
         abstract = True
 
+
 def create_stock_model(table_name):
     """Factory function to create a dynamic stock model."""
     class DynamicCompanyStock(CompanyStockData):
         class Meta:
             db_table = table_name
+
+        @classmethod
+        def kafka_schema(cls):
+            return {
+                'type': 'object',
+                'properties': {
+                    'date': {'type': 'string', 'format': 'date'},
+                    'open_price': {'type': 'number'},
+                    'close_price': {'type': 'number'},
+                    'high_price': {'type': 'number'},
+                    'low_price': {'type': 'number'},
+                    'volume': {'type': 'integer'},
+                    'dividend': {'type': 'number'},
+                    'stock_splits': {'type': 'number'},
+                }
+            }
+
     return DynamicCompanyStock
 
 class CompanyNewsData(models.Model):
