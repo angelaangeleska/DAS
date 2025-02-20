@@ -6,7 +6,8 @@ from serializers import serializer
 
 producer = KafkaProducer(
     bootstrap_servers='kafka:9092',
-    value_serializer=serializer
+    value_serializer=serializer,
+
 )
 
 def send_stock_data(code):
@@ -29,7 +30,7 @@ def send_stock_news(code):
 
     message = {"code": code, "news": news}
 
-    producer.send('stock-data', message)
+    producer.send('stock-news', message)
     producer.flush()
 
 

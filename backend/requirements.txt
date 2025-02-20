@@ -11,3 +11,7 @@ kafka-python
 pyspark
 confluent-kafka
 lxml
+ta
+nltk
+xgboost
+joblib
