@@ -1,5 +1,3 @@
-from tokenize import String
-
 import ta
 import numpy as np
 
