@@ -11,7 +11,7 @@ function App() {
         {/* Header */}
         <header className="bg-blue-700 text-white p-4 flex items-center shadow-md">
           {/* Logo on the left */}
-          <h1 className="text-2xl font-bold flex-1">📈 Stock Analysis </h1>
+          <a href="/" className="text-2xl font-bold flex-1"><h1>📈 Stock Analysis </h1></a>
 
           {/* Centered Navigation */}
           <nav className="flex space-x-4 mx-auto">
