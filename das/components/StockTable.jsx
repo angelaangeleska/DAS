@@ -1,14 +1,13 @@
 import {useEffect, useState} from "react";
 
 function StockTable({code}) {
-    // {"final_decision": "Buy", "news_signal": "Buy", "last_report_signal": "Hold", "prediction_signal": "Buy"}
     const [signals, setSignals] = useState({})
 
     useEffect(() => {
-        // fetch(`http://localhost:8000/api/predictions/?code=${code}`)
-        //     .then((response) => response.json())
-        //     .then((data) => setSignals(data))
-        //     .catch((error) => console.error("Error fetching codes:", error));
+        fetch(`http://localhost:8000/api/predictions/?code=${code}`)
+            .then((response) => response.json())
+            .then((data) => setSignals(data))
+            .catch((error) => console.error("Error fetching codes:", error));
     }, [code]);
 
     return (

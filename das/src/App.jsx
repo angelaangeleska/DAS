@@ -11,7 +11,7 @@ function App() {
         {/* Header */}
         <header className="bg-blue-700 text-white p-4 flex items-center shadow-md">
           {/* Logo on the left */}
-          <h1 className="text-2xl font-bold flex-1">📈 Stock Analysis Dashboard</h1>
+          <h1 className="text-2xl font-bold flex-1">📈 Stock Analysis </h1>
 
           {/* Centered Navigation */}
           <nav className="flex space-x-4 mx-auto">
@@ -42,7 +42,7 @@ function App() {
 
         {/* Footer */}
         <footer className="bg-blue-700 text-white text-center p-4 mt-6">
-          <p>© 2025 Stock Analysis Dashboard | Built for DAS with React, Django, Apache Kafka, Apache Spark and Postgres</p>
+          <p>© 2025 Stock Analysis | Built for DAS with React, Django, Apache Kafka, Apache Spark and Postgres</p>
         </footer>
       </div>
     </Router>

@@ -16,7 +16,7 @@ function CodeDropdown({ setCode }) {
       className="w-full p-2 border rounded-md"
     >
       <option value="ABT">ABT</option>
-      {codes.slice(0,10).map((code) => (
+      {codes.slice(0,30).map((code) => (
         <option key={code} value={code}>
           {code}
         </option>

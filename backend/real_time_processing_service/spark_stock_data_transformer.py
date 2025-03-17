@@ -1,8 +1,9 @@
-from pyspark.sql import SparkSession
-import pyspark.sql.functions as F
-from pyspark.sql.types import *
-
 import os
+
+from pyspark.sql.types import *
+import pyspark.sql.functions as F
+from pyspark.sql import SparkSession
+
 os.environ['PYSPARK_SUBMIT_ARGS'] = '--packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.1.2 pyspark-shell'
 
 kafka_input_config = {
