@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function NewsComponent({ code }) {
+function NewsComponent({ code, updated }) {
     const [news, setNews] = useState([]);
     const [expandedArticleId, setExpandedArticleId] = useState(null);
 
@@ -16,7 +16,7 @@ function NewsComponent({ code }) {
                 }
             })
             .catch((error) => console.error("Error fetching news:", error));
-    }, [code]);
+    }, [code, updated]);
 
     const handleTitleClick = (id) => {
         setExpandedArticleId(expandedArticleId === id ? null : id);

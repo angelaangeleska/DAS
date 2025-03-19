@@ -2,7 +2,7 @@ import {LineChart, Line, XAxis, YAxis, Tooltip} from "recharts";
 import {useEffect, useState} from "react";
 
 
-function StockChart({ code }) {
+function StockChart({ code, updated }) {
     const [data, setData] = useState([])
 
     useEffect(() => {
@@ -13,13 +13,13 @@ function StockChart({ code }) {
                 setData(fetched_data)
             })
             .catch((error) => console.error("Error fetching data:", error));
-    }, [code]);
+    }, [code, updated]);
 
     return (
         <div className="p-4 bg-white shadow rounded-md">
             <h2 className="text-lg font-bold mb-4">Stock Price Over Time</h2>
             <div className="p-4 w-full h-[50vh]">
-                <LineChart width={1150} height={390} data={data.slice(0, 2500)}>
+                <LineChart width={1150} height={390} data={data}>
                 <XAxis dataKey="date"/>
                 <YAxis/>
                 <Tooltip/>

@@ -1,14 +1,18 @@
 import {useEffect, useState} from "react";
 
-function StockTable({code}) {
+function StockTable({code, updated}) {
     const [signals, setSignals] = useState({})
 
     useEffect(() => {
+        console.log("reloading Signals")
         fetch(`http://localhost:8000/api/predictions/?code=${code}`)
             .then((response) => response.json())
-            .then((data) => setSignals(data))
+            .then((data) => {
+                console.log("new data: ", data)
+                setSignals(data)
+            })
             .catch((error) => console.error("Error fetching codes:", error));
-    }, [code]);
+    }, [code, updated]);
 
     return (
         <div className="p-4 bg-white shadow rounded-md">

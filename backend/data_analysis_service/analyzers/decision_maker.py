@@ -8,7 +8,7 @@ def decision_maker(df_stocks, df_news):
     df_stocks = pd.DataFrame(df_stocks)
     df_news = pd.DataFrame(df_news)
 
-    # print( 'OVDE',df[:-1])
+    print('OVDE', df_stocks[-1:])
 
     report_df, last_report_signal = analyze_report(df_stocks.copy())
 
