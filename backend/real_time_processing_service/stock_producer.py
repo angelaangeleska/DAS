@@ -6,8 +6,7 @@ from .fetch_codes import *
 from kafka import KafkaProducer
 from django.db import connection
 from .serializers import serializer
-from datetime import datetime, timedelta
-
+from datetime import datetime, timedelta, date
 
 producer = KafkaProducer(
     bootstrap_servers='kafka:9092',
@@ -35,7 +34,7 @@ def send_stock_news(code):
 
     message = {"code": code, "news": news}
 
-    producer.send('stock-news', message)
+    producer.send('stock-data', message)
     producer.flush()
 
 
@@ -50,6 +49,9 @@ def update_stock_data(code):
         result = [dict(zip(columns, row)) for row in cursor.fetchall()]
 
         last_day = result[0]['max']
+        if last_day == date.today():
+            return "Already updated"
+
         data = stock_fetcher(code, last_day)
 
         message = {"code": code, "data": data}
