@@ -2,18 +2,24 @@ import {LineChart, Line, XAxis, YAxis, Tooltip} from "recharts";
 import {useEffect, useState} from "react";
 
 
-function StockChart({ code, updated }) {
+function StockChart({ code, updated, n=2000 }) {
     const [data, setData] = useState([])
 
     useEffect(() => {
-        fetch(`http://localhost:8000/api/table/?code=${code}`)
-            .then((response) => response.json())
-            .then((fetched_data) => {
-                // console.log(fetched_data)
-                setData(fetched_data)
-            })
-            .catch((error) => console.error("Error fetching data:", error));
-    }, [code, updated]);
+    // Add cache-busting timestamp parameter
+    const fetchUrl = `http://localhost:8000/api/table/?code=${code}&_=${Date.now()}`;
+
+    fetch(fetchUrl)
+      .then((response) => response.json())
+      .then((fetched_data) => {
+        const sortedData = fetched_data.sort((a, b) =>
+          new Date(b.date) - new Date(a.date)
+        );
+        const recentData = sortedData.slice(0, n);
+        setData(recentData.reverse());
+      })
+      .catch((error) => console.error("Error fetching data:", error));
+  }, [code, updated, n]); // Dependency array ensures refresh when any of these change
 
     return (
         <div className="p-4 bg-white shadow rounded-md">

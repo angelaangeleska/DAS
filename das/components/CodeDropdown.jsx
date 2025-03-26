@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 
 function CodeDropdown({ setCode }) {
   const [codes, setCodes] = useState([]);
+  const [selectedCode, setSelectedCode] = useState(() => {
+    return localStorage.getItem('selectedStockCode') || "ABT";
+  });
 
   useEffect(() => {
     fetch("http://localhost:8000/api/codes/")
@@ -10,9 +13,17 @@ function CodeDropdown({ setCode }) {
       .catch((error) => console.error("Error fetching codes:", error));
   }, []);
 
+  const handleChange = (e) => {
+    const newCode = e.target.value;
+    setSelectedCode(newCode);
+    localStorage.setItem('selectedStockCode', newCode);
+    setCode(newCode);
+  };
+
   return (
     <select
-      onChange={(e) => setCode(e.target.value)}
+      value={selectedCode}
+      onChange={handleChange}
       className="w-full p-2 border rounded-md"
     >
       <option value="ABT">ABT</option>
